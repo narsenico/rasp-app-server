@@ -1,7 +1,7 @@
 {
-  "name": "waste-collection-server",
+  "name": "rasp-app-server",
   "version": "1.0.0",
-  "description": "Waste Collection Server",
+  "description": "rasp-app-server",
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config index.js",
@@ -11,6 +11,7 @@
   "author": "narsenico",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1"
