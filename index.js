@@ -4,6 +4,7 @@ const cors = require('cors');
 const wasteCollectionRoute = require('./routes/wastecollection');
 const nodeRedRoute = require('./routes/nodered');
 const weatherRoute = require('./routes/weather');
+const calendarRoute = require('./routes/calendar');
 
 // ! NON usare fs.promises perché la versione di node su raspberry non le supporta
 
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 app.use('/waste', wasteCollectionRoute);
 app.use('/nodered', nodeRedRoute);
 app.use('/weather', weatherRoute);
+app.use('/calendar', calendarRoute);
 
 app.all('/hello', (req, res) => {
     console.log(`hello method=${req.method}`);

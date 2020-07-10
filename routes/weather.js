@@ -14,35 +14,35 @@ const OPENWEATHERUNITS = process.env.OPENWEATHERUNITS;
 
 const router = express.Router();
 
-router.get('/onecall', async (req, res) => {
+router.get('/forecast', async (req, res) => {
     try {
-            const onecall = await axios.get(
-                `https://api.openweathermap.org/data/2.5/onecall?lat=${OPENWEATHERAPILAT}&lon=${OPENWEATHERAPILON}&exclude=minutely,daily,current&units=${OPENWEATHERUNITS}&lang=${OPENWEATHERLANG}&appid=${OPENWEATHERAPIKEY}`
-            );
-            console.log(`openweathermap onecall status=${onecall.status}`);
-            // estraggo info sulla posizione e orario
-            const { lat, lon, timezone, timezone_offset } = onecall.data;
-            // e solo alcune info delle previsioni per le prossime 48 ore
-            const hourly = onecall.data.hourly.map((chunk) => {
-                // ! dt = Time of the forecasted data, Unix, UTC
-                const { dt, temp, humidity, weather } = chunk;
-                return {
-                    dt,
-                    temp,
-                    humidity,
-                    weather,
-                };
-            });
-            res.status(200)
-                .json({
-                    lat,
-                    lon,
-                    timezone,
-                    timezone_offset,
-                    hourly,
-                })
-                .end();
-        } catch (e) {
+        const onecall = await axios.get(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${OPENWEATHERAPILAT}&lon=${OPENWEATHERAPILON}&exclude=minutely,daily,current&units=${OPENWEATHERUNITS}&lang=${OPENWEATHERLANG}&appid=${OPENWEATHERAPIKEY}`
+        );
+        console.log(`openweathermap onecall status=${onecall.status}`);
+        // estraggo info sulla posizione e orario
+        const { lat, lon, timezone, timezone_offset } = onecall.data;
+        // e solo alcune info delle previsioni per le prossime 48 ore
+        const hourly = onecall.data.hourly.map((chunk) => {
+            // ! dt = Time of the forecasted data, Unix, UTC
+            const { dt, temp, humidity, weather } = chunk;
+            return {
+                dt,
+                temp,
+                humidity,
+                weather,
+            };
+        });
+        res.status(200)
+            .json({
+                lat,
+                lon,
+                timezone,
+                timezone_offset,
+                hourly,
+            })
+            .end();
+    } catch (e) {
         console.error(e);
         res.status(500).end();
     }
