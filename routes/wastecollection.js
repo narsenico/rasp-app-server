@@ -11,7 +11,7 @@ const WASTEDATA_TEMPLATE = {
 
 const router = express.Router();
 
-router.get('/data', (req, res) => {
+router.get('/', (req, res) => {
     fs.readFile(WASTEDATAPATH, 'utf-8', (err, data) => {
         if (err) {
             console.error(err);
