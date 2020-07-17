@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { format: dfFormat } = require('date-fns');
 
 const wasteCollectionRoute = require('./routes/wastecollection');
 const nodeRedRoute = require('./routes/nodered');
@@ -19,7 +20,7 @@ app.use(express.static(WEBPATH));
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.originalUrl}`);
+    console.log(`[${dfFormat(Date.now(), 'HH:mm:ss.SSS')}] ${req.method} ${req.originalUrl}`);
     next();
 });
 
