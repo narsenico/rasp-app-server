@@ -17,19 +17,22 @@ const router = express.Router();
 router.get('/forecast', async (req, res) => {
     try {
         const onecall = await axios.get(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${OPENWEATHERAPILAT}&lon=${OPENWEATHERAPILON}&exclude=minutely,daily,current&units=${OPENWEATHERUNITS}&lang=${OPENWEATHERLANG}&appid=${OPENWEATHERAPIKEY}`
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${OPENWEATHERAPILAT}&lon=${OPENWEATHERAPILON}&exclude=minutely,daily&units=${OPENWEATHERUNITS}&lang=${OPENWEATHERLANG}&appid=${OPENWEATHERAPIKEY}`
         );
         console.log(`openweathermap onecall status=${onecall.status}`);
         // estraggo info sulla posizione e orario
         const { lat, lon, timezone, timezone_offset } = onecall.data;
         // e solo alcune info delle previsioni per le prossime 48 ore
+        // console.log(onecall.data.hourly);
         const hourly = onecall.data.hourly.map((chunk) => {
-            // ! dt = Time of the forecasted data, Unix, UTC
+            // TODO: è possibile recuperare alba e tramonto (current.sunrise,sunset)? per differenziare le icone
+            // dt => Time of the forecasted data, Unix, UTC
             const { dt, temp, humidity, weather } = chunk;
             return {
-                dt,
+                date: new Date(dt * 1000),
                 temp,
                 humidity,
+                // TODO: vorrei inviare anche la situazione peggiore nelle prox n ore
                 weather,
             };
         });
