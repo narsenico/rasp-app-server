@@ -9,25 +9,45 @@ const WASTEDATA_TEMPLATE = {
     calendar: {},
 };
 
+// TODO: watch WASTEDATAPATH così lo leggo solo se viene modificato
+
+async function readWasteData() {
+    return new Promise((resolve, reject) => {
+        fs.readFile(WASTEDATAPATH, 'utf-8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                if (data) {
+                    resolve(JSON.parse(data));
+                } else {
+                    resolve({ ...WASTEDATA_TEMPLATE });
+                }
+            }
+        });
+    });
+}
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    fs.readFile(WASTEDATAPATH, 'utf-8', (err, data) => {
-        if (err) {
-            console.error(err);
-            if (err.code === 'ENOENT') {
-                res.status(404).end();
-            } else {
-                res.status(500).end();
-            }
+router.get('/:date', async (req, res) => {
+    try {
+        const wasteData = await readWasteData();
+        const date = req.params.date;
+        const nextDate = Object.keys(wasteData.calendar).find((d) => d > date);
+        res.json({
+            // data richiesta
+            [date]: wasteData.calendar[date] || '',
+            // prossima raccolta: potrebbe essere null
+            [nextDate]: wasteData.calendar[nextDate],
+        }).end();
+    } catch (err) {
+        console.error(err);
+        if (err.code === 'ENOENT') {
+            res.status(404).end();
         } else {
-            if (data) {
-                res.status(200).json(data).end();
-            } else {
-                res.status(204).end();
-            }
+            res.status(500).end();
         }
-    });
+    }
 });
 
 router.post('/init', async (req, res) => {
@@ -54,6 +74,20 @@ router.post('/init', async (req, res) => {
             res.status(422).end();
         }
     });
+});
+
+router.get('/data', async (req, res) => {
+    try {
+        const wasteData = await readWasteData();
+        res.json(wasteData).end();
+    } catch (err) {
+        console.error(err);
+        if (err.code === 'ENOENT') {
+            res.status(404).end();
+        } else {
+            res.status(500).end();
+        }
+    }
 });
 
 router.put('/data', async (req, res) => {
