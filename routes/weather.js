@@ -22,10 +22,10 @@ router.get('/forecast', async (req, res) => {
         console.log(`openweathermap onecall status=${onecall.status}`);
         // estraggo info sulla posizione e orario
         const { lat, lon, timezone, timezone_offset } = onecall.data;
+        const { sunrise, sunset } = onecall.data.current;
         // e solo alcune info delle previsioni per le prossime 48 ore
-        // console.log(onecall.data.hourly);
+        // console.log(onecall.data);
         const hourly = onecall.data.hourly.map((chunk) => {
-            // TODO: è possibile recuperare alba e tramonto (current.sunrise,sunset)? per differenziare le icone
             // dt => Time of the forecasted data, Unix, UTC
             const { dt, temp, humidity, weather } = chunk;
             return {
@@ -43,6 +43,8 @@ router.get('/forecast', async (req, res) => {
                 timezone,
                 timezone_offset,
                 hourly,
+                sunrise,
+                sunset
             })
             .end();
     } catch (e) {
