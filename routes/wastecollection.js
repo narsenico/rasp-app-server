@@ -34,12 +34,14 @@ router.get('/:date', async (req, res) => {
         const wasteData = await readWasteData();
         const date = req.params.date;
         const nextDate = Object.keys(wasteData.calendar).find((d) => d > date);
-        res.json({
-            // data richiesta
-            [date]: wasteData.calendar[date] || '',
-            // prossima raccolta: potrebbe essere null
-            [nextDate]: wasteData.calendar[nextDate],
-        }).end();
+        // ritorno un array
+        // come primo elemento la data richiesta
+        // come seoncdo il ritiro successivo alla data richiesta, se esiste
+        const data = [{ date, waste: wasteData.calendar[date] || '' }];
+        if (nextDate) {
+            data.push({ date: nextDate, waste: wasteData.calendar[nextDate] });
+        }
+        res.json(data).end();
     } catch (err) {
         console.error(err);
         if (err.code === 'ENOENT') {
