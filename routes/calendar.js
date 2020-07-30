@@ -170,6 +170,7 @@ router.put('/auth', async (req, res) => {
             // creo il token grazie al codice ricevuto
             oAuth2Client.getToken(code, (err, token) => {
                 if (err) {
+                    // TODO: cancellare il file del token? potrebbe essere non più valido
                     throw new Error('Bad token');
                 } else {
                     // salvo il token su file

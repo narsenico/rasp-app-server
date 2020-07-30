@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config index.js",
     "dev": "nodemon --signal SIGHUP -r dotenv/config index.js",
-    "test": "echo test"
+    "prepare": "rm -rf web && mkdir web && cp -r ../rasp-app-client/build/* web/"
   },
   "author": "narsenico",
   "license": "MIT",

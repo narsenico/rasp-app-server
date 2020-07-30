@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1c435314.chunk.css",
+    "main.js": "/static/js/main.b688c28a.chunk.js",
+    "main.js.map": "/static/js/main.b688c28a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.84423c49.js",
+    "runtime-main.js.map": "/static/js/runtime-main.84423c49.js.map",
+    "static/js/2.cb078a22.chunk.js": "/static/js/2.cb078a22.chunk.js",
+    "static/js/2.cb078a22.chunk.js.map": "/static/js/2.cb078a22.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.19d906354247a49e828f340fbe9cedfe.js": "/precache-manifest.19d906354247a49e828f340fbe9cedfe.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.1c435314.chunk.css.map": "/static/css/main.1c435314.chunk.css.map",
+    "static/js/2.cb078a22.chunk.js.LICENSE.txt": "/static/js/2.cb078a22.chunk.js.LICENSE.txt",
+    "static/media/WasteCollection.css": "/static/media/recycle_icons.b221e1a8.png",
+    "static/media/Weather.css": "/static/media/weathericons-regular-webfont.ecaf8b48.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.84423c49.js",
+    "static/js/2.cb078a22.chunk.js",
+    "static/css/main.1c435314.chunk.css",
+    "static/js/main.b688c28a.chunk.js"
+  ]
+}
