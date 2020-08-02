@@ -29,29 +29,6 @@ async function readWasteData() {
 
 const router = express.Router();
 
-router.get('/:date', async (req, res) => {
-    try {
-        const wasteData = await readWasteData();
-        const date = req.params.date;
-        const nextDate = Object.keys(wasteData.calendar).find((d) => d > date);
-        // ritorno un array
-        // come primo elemento la data richiesta
-        // come seoncdo il ritiro successivo alla data richiesta, se esiste
-        const data = [{ date, waste: wasteData.calendar[date] || '' }];
-        if (nextDate) {
-            data.push({ date: nextDate, waste: wasteData.calendar[nextDate] });
-        }
-        res.json(data).end();
-    } catch (err) {
-        console.error(err);
-        if (err.code === 'ENOENT') {
-            res.status(404).end();
-        } else {
-            res.status(500).end();
-        }
-    }
-});
-
 router.post('/init', async (req, res) => {
     const overwrite = req.query['overwrite'] === 'yes';
 
@@ -110,6 +87,29 @@ router.put('/data', async (req, res) => {
         res.status(200).end();
     } else {
         res.status(400).send('wastedata not found').end();
+    }
+});
+
+router.get('/:date', async (req, res) => {
+    try {
+        const wasteData = await readWasteData();
+        const date = req.params.date;
+        const nextDate = Object.keys(wasteData.calendar).find((d) => d > date);
+        // ritorno un array
+        // come primo elemento la data richiesta
+        // come seoncdo il ritiro successivo alla data richiesta, se esiste
+        const data = [{ date, waste: wasteData.calendar[date] || '' }];
+        if (nextDate) {
+            data.push({ date: nextDate, waste: wasteData.calendar[nextDate] });
+        }
+        res.json(data).end();
+    } catch (err) {
+        console.error(err);
+        if (err.code === 'ENOENT') {
+            res.status(404).end();
+        } else {
+            res.status(500).end();
+        }
     }
 });
 
